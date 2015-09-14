@@ -25,7 +25,7 @@ func (this AwsCreateVpc) Create(svc *ec2.EC2) (string, error) {
 		CidrBlock: aws.String("10.0.0.0/16"),
 	}
 
-	tracer.Trace("==> Creating AWS VPC...")
+	tracer.Trace("Creating AWS VPC...")
 	resp, err := svc.CreateVpc(params)
 
 	if err != nil {
@@ -36,15 +36,15 @@ func (this AwsCreateVpc) Create(svc *ec2.EC2) (string, error) {
 	//	fmt.Println(resp)
 	
 	vpcId := *resp.Vpc.VpcId
-	tracer.Trace("==> Created AWS VPC: " + vpcId)
+	tracer.Trace("Created AWS VPC: " + vpcId)
 
-	tracer.Trace("==> Modifying AWS VPC Attributes...")
+	tracer.Trace("Modifying AWS VPC Attributes...")
 	errModify := this.ModifyVpcAttribute(svc, vpcId)
 
 	if errModify != nil {
 		return "", errModify
 	}
-	tracer.Trace("==> AWS VPC Attributes Modified.")
+	tracer.Trace("AWS VPC Attributes Modified.")
 
 	return vpcId, nil
 
