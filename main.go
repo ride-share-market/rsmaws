@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/rudijs/scratch/aws"
+	"github.com/rudijs/rsmaws/aws"
 )
 
 func main() {
@@ -87,15 +87,13 @@ func main() {
 			panic("--vpcRegion is required")
 		}
 
-		awscvpc := new(aws.AwsCreateVpc)
-
-		vpcId, err := aws.CreateVpc(awscvpc, *vpcRegionPtr)
+		res, err := aws.BuildVpc(*vpcRegionPtr)
 
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		fmt.Println(vpcId)
+		fmt.Println(res)
 
 	}
 
