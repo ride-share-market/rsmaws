@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"encoding/json"
 
 	"github.com/rudijs/rsmaws/aws"
 )
@@ -92,8 +93,14 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		fmt.Println(res)
+		
+		vpcJson, jsonErr := json.Marshal(res)
+		
+		if jsonErr != nil {
+			fmt.Println(jsonErr)
+		}
+		
+		fmt.Println(string(vpcJson))
 
 	}
 

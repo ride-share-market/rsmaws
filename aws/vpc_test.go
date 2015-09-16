@@ -4,6 +4,12 @@ import (
 //	"errors"
 	"testing"
 	"fmt"
+	"os"
+	
+//	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/ec2"
+	
+	"github.com/rudijs/rsmaws/trace"	
 )
 
 type Vpc struct {
@@ -16,9 +22,9 @@ type CreateVpcOutput struct {
 
 type createVpc struct{}
 
-func (this createVpc) Create(vpcRegion string) (string, error) {
+func (this createVpc) Create(tracer trace.Tracer, svc *ec2.EC2) (string, error) {
 
-	vpcId := "vpc-b9258cdc"
+	vpcId := "vpc-abc123"
 
 	vpc := &Vpc{
 		VpcId: &vpcId,
@@ -34,11 +40,17 @@ func (this createVpc) Create(vpcRegion string) (string, error) {
 
 func TestCreateVpc(t *testing.T) {
 	
+	tracer := trace.New(os.Stdout)
+
+	svc := ec2.New(nil)
+	
 	vpc := new(createVpc)
 	
-	vpcRegion := "ap-southeast-1"
+	vpcId, _ := CreateVpc(tracer, vpc, svc)
 	
-	vpcId, _ := CreateVpc(vpc, vpcRegion)
+	if vpcId != "vpc-abc123" {
+		t.Errorf("vpcId != vpc-abc123 got %s", vpcId)
+	}
 	
 	fmt.Println(vpcId)
 

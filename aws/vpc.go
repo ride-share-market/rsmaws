@@ -1,26 +1,24 @@
 package aws
 
 import (
-	"os"
-	"github.com/rudijs/rsmaws/trace"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
+	
+	"github.com/rudijs/rsmaws/trace"
 )
 
 type CreateVpcIface interface {
-	Create(svc *ec2.EC2) (string, error)
+	Create(tracer trace.Tracer, svc *ec2.EC2) (string, error)
 }
 
-func CreateVpc(vpc CreateVpcIface, svc *ec2.EC2) (string, error) {
-	return vpc.Create(svc)
+func CreateVpc(tracer trace.Tracer, vpc CreateVpcIface, svc *ec2.EC2) (string, error) {
+	return vpc.Create(tracer, svc)
 }
 
 type AwsCreateVpc struct{}
 
-func (this AwsCreateVpc) Create(svc *ec2.EC2) (string, error) {
+func (this AwsCreateVpc) Create(tracer trace.Tracer, svc *ec2.EC2) (string, error) {
 	
-	tracer := trace.New(os.Stdout)
-
 	params := &ec2.CreateVpcInput{
 		CidrBlock: aws.String("10.0.0.0/16"),
 	}
