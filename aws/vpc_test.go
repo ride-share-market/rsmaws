@@ -3,10 +3,8 @@ package aws
 import (
 //	"errors"
 	"testing"
-	"fmt"
 	"os"
 	
-//	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	
 	"github.com/rudijs/rsmaws/trace"	
@@ -52,6 +50,4 @@ func TestCreateVpc(t *testing.T) {
 		t.Errorf("vpcId != vpc-abc123 got %s", vpcId)
 	}
 	
-	fmt.Println(vpcId)
-
 }
